@@ -8,6 +8,7 @@ import pytest
 import inspect
 import os
 import numpy as np
+import pandas as pd
 from Basilisk.utilities import SimulationBaseClass
 from Basilisk.utilities import unitTestSupport
 import matplotlib
@@ -33,8 +34,10 @@ def run(show_plots):
     # Create test thread
     dynTimeStep = 0.01  # [s]
     fswTimeStep = 0.1  # [s]
+    dataRecStep = 1.0  # [s]
     dynProcessRate = macros.sec2nano(dynTimeStep)  # [ns]
     fswProcessRate = macros.sec2nano(fswTimeStep)  # [ns]
+    dataRecRate = macros.sec2nano(dataRecStep)  # [ns]
     simProc = scSim.CreateNewProcess(simProcessName)
     simProc.addTask(scSim.CreateNewTask(dynTaskName, dynProcessRate))
     simProc.addTask(scSim.CreateNewTask(fswTaskName, fswProcessRate))
@@ -89,8 +92,8 @@ def run(show_plots):
     for i in range(numArrayElements):
         array1ElementList.append(prescribedMotionStateEffector.PrescribedMotionStateEffector())
         array2ElementList.append(prescribedMotionStateEffector.PrescribedMotionStateEffector())
-        array1ElementList[i].mass = 7.0  # [kg]
-        array2ElementList[i].mass = 7.0  # [kg]
+        array1ElementList[i].mass = 10.0  # [kg]
+        array2ElementList[i].mass = 10.0  # [kg]
         array1ElementList[i].IPntFc_F = [[31.9, 0.0, 0.0], [0.0, 18.5, 0.0], [0.0, 0.0, 49.5]]  # [kg m^2]
         array2ElementList[i].IPntFc_F = [[31.9, 0.0, 0.0], [0.0, 18.5, 0.0], [0.0, 0.0, 49.5]]  # [kg m^2]
         array1ElementList[i].r_MB_B = r_M1B_B  # [m]
@@ -238,31 +241,31 @@ def run(show_plots):
     # scObject.gravField.gravBodies = spacecraft.GravBodyVector([earthGravBody])
 
     # Add energy and momentum variables to log
-    scObjectLog = scObject.logger(["totOrbEnergy", "totOrbAngMomPntN_N", "totRotAngMomPntC_N", "totRotEnergy"])
+    scObjectLog = scObject.logger(["totOrbEnergy", "totOrbAngMomPntN_N", "totRotAngMomPntC_N", "totRotEnergy"], dataRecRate)
     scSim.AddModelToTask(fswTaskName, scObjectLog)
 
     # Add other states to log
-    scStateData = scObject.scStateOutMsg.recorder()
-    array1Element1PrescribedTransDataLog = array1PrescribedElementTransList[0].translatingBodyOutMsg.recorder()
-    array1Element2PrescribedTransDataLog = array1PrescribedElementTransList[1].translatingBodyOutMsg.recorder()
-    array1Element3PrescribedTransDataLog = array1PrescribedElementTransList[2].translatingBodyOutMsg.recorder()
-    array1Element4PrescribedTransDataLog = array1PrescribedElementTransList[3].translatingBodyOutMsg.recorder()
-    array1Element5PrescribedTransDataLog = array1PrescribedElementTransList[4].translatingBodyOutMsg.recorder()
-    array2Element1PrescribedTransDataLog = array2PrescribedElementTransList[0].translatingBodyOutMsg.recorder()
-    array2Element2PrescribedTransDataLog = array2PrescribedElementTransList[1].translatingBodyOutMsg.recorder()
-    array2Element3PrescribedTransDataLog = array2PrescribedElementTransList[2].translatingBodyOutMsg.recorder()
-    array2Element4PrescribedTransDataLog = array2PrescribedElementTransList[3].translatingBodyOutMsg.recorder()
-    array2Element5PrescribedTransDataLog = array2PrescribedElementTransList[4].translatingBodyOutMsg.recorder()
-    array1Element1PrescribedRotDataLog = array1PrescribedElementRotList[0].spinningBodyOutMsg.recorder()
-    array1Element2PrescribedRotDataLog = array1PrescribedElementRotList[1].spinningBodyOutMsg.recorder()
-    array1Element3PrescribedRotDataLog = array1PrescribedElementRotList[2].spinningBodyOutMsg.recorder()
-    array1Element4PrescribedRotDataLog = array1PrescribedElementRotList[3].spinningBodyOutMsg.recorder()
-    array1Element5PrescribedRotDataLog = array1PrescribedElementRotList[4].spinningBodyOutMsg.recorder()
-    array2Element1PrescribedRotDataLog = array2PrescribedElementRotList[0].spinningBodyOutMsg.recorder()
-    array2Element2PrescribedRotDataLog = array2PrescribedElementRotList[1].spinningBodyOutMsg.recorder()
-    array2Element3PrescribedRotDataLog = array2PrescribedElementRotList[2].spinningBodyOutMsg.recorder()
-    array2Element4PrescribedRotDataLog = array2PrescribedElementRotList[3].spinningBodyOutMsg.recorder()
-    array2Element5PrescribedRotDataLog = array2PrescribedElementRotList[4].spinningBodyOutMsg.recorder()
+    scStateData = scObject.scStateOutMsg.recorder(dataRecRate)
+    array1Element1PrescribedTransDataLog = array1PrescribedElementTransList[0].translatingBodyOutMsg.recorder(dataRecRate)
+    array1Element2PrescribedTransDataLog = array1PrescribedElementTransList[1].translatingBodyOutMsg.recorder(dataRecRate)
+    array1Element3PrescribedTransDataLog = array1PrescribedElementTransList[2].translatingBodyOutMsg.recorder(dataRecRate)
+    array1Element4PrescribedTransDataLog = array1PrescribedElementTransList[3].translatingBodyOutMsg.recorder(dataRecRate)
+    array1Element5PrescribedTransDataLog = array1PrescribedElementTransList[4].translatingBodyOutMsg.recorder(dataRecRate)
+    array2Element1PrescribedTransDataLog = array2PrescribedElementTransList[0].translatingBodyOutMsg.recorder(dataRecRate)
+    array2Element2PrescribedTransDataLog = array2PrescribedElementTransList[1].translatingBodyOutMsg.recorder(dataRecRate)
+    array2Element3PrescribedTransDataLog = array2PrescribedElementTransList[2].translatingBodyOutMsg.recorder(dataRecRate)
+    array2Element4PrescribedTransDataLog = array2PrescribedElementTransList[3].translatingBodyOutMsg.recorder(dataRecRate)
+    array2Element5PrescribedTransDataLog = array2PrescribedElementTransList[4].translatingBodyOutMsg.recorder(dataRecRate)
+    array1Element1PrescribedRotDataLog = array1PrescribedElementRotList[0].spinningBodyOutMsg.recorder(dataRecRate)
+    array1Element2PrescribedRotDataLog = array1PrescribedElementRotList[1].spinningBodyOutMsg.recorder(dataRecRate)
+    array1Element3PrescribedRotDataLog = array1PrescribedElementRotList[2].spinningBodyOutMsg.recorder(dataRecRate)
+    array1Element4PrescribedRotDataLog = array1PrescribedElementRotList[3].spinningBodyOutMsg.recorder(dataRecRate)
+    array1Element5PrescribedRotDataLog = array1PrescribedElementRotList[4].spinningBodyOutMsg.recorder(dataRecRate)
+    array2Element1PrescribedRotDataLog = array2PrescribedElementRotList[0].spinningBodyOutMsg.recorder(dataRecRate)
+    array2Element2PrescribedRotDataLog = array2PrescribedElementRotList[1].spinningBodyOutMsg.recorder(dataRecRate)
+    array2Element3PrescribedRotDataLog = array2PrescribedElementRotList[2].spinningBodyOutMsg.recorder(dataRecRate)
+    array2Element4PrescribedRotDataLog = array2PrescribedElementRotList[3].spinningBodyOutMsg.recorder(dataRecRate)
+    array2Element5PrescribedRotDataLog = array2PrescribedElementRotList[4].spinningBodyOutMsg.recorder(dataRecRate)
 
     scSim.AddModelToTask(fswTaskName, scStateData)
     scSim.AddModelToTask(fswTaskName, array1Element1PrescribedTransDataLog)
@@ -297,21 +300,18 @@ def run(show_plots):
     scSim.ExecuteSimulation()
 
     # Initialize the prescribedTrans module configuration data
-    tDeploy2 = 20 * 60  # [s]
+    tDeploy2 = (20 * 60) / 4  # [s]
     tCoast2 = tDeploy2 - (2 * tRamp)  # [s]
 
-    array1MaxTransAccelList = []
-    for i in range(numArrayElements):
-        transPosInit = array1TransPosInit  # [m]
-        transPosRef = (i * lenPanel) + lenPanel  # [m]
+    transPosInit = array1TransPosInit  # [m]
+    transPosRef = lenPanel  # [m]
+    transAccelMax = (transPosRef - transPosInit) / ((tCoast2 * tRamp) + (tRamp * tRamp))  # [m/s^2]
 
-        # Determine the position and velocity at the end of the ramp segment/start of the coast segment
-        if (transPosInit < transPosRef):
-            transAccelMax = (transPosRef - transPosInit) / ((tCoast2 * tRamp) + (tRamp * tRamp))  # [m/s^2]
-        else:
-            transAccelMax = (transPosRef - transPosInit) / - ((tCoast2 * tRamp) + (tRamp * tRamp))  # [m/s^2]
-
-        array1MaxTransAccelList.append(transAccelMax)
+    array1MaxTransAccelList = [0.0,
+                               transAccelMax,
+                               transAccelMax,
+                               transAccelMax,
+                               transAccelMax]
 
     # Create the array element reference messages
     array1ElementTransMessageList2 = list()
@@ -319,7 +319,11 @@ def run(show_plots):
         array1PrescribedElementTransList[i].transAccelMax = array1MaxTransAccelList[i]  # [m/s^2]
 
         array1ElementMessageData = messaging.PrescribedTransMsgPayload()
-        array1ElementMessageData.scalarPos = (i * lenPanel) + lenPanel  # [m]
+        if i == 0:
+            array1ElementMessageData.scalarPos = i * lenPanel  # [m]
+        else:
+            array1ElementMessageData.scalarPos = lenPanel  # [m]
+
         array1ElementMessageData.scalarVel = 0.0  # [m/s]
         array1ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array1ElementMessageData))
 
@@ -327,8 +331,110 @@ def run(show_plots):
         array1PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array1ElementTransMessageList2[i])
 
     # Set the simulation time
-    simTime2 = tDeploy2 + 10  # [s]
+    simTime2 = tDeploy2  # [s]
     scSim.ConfigureStopTime(macros.sec2nano(simTime1 + simTime2))
+
+    # Begin the simulation
+    scSim.ExecuteSimulation()
+
+    # Initialize the prescribedTrans module configuration data
+    transPosInit = transPosRef  # [m]
+    transPosRef = 2 * lenPanel  # [m]
+    transAccelMax = (transPosRef - transPosInit) / ((tCoast2 * tRamp) + (tRamp * tRamp))  # [m/s^2]
+
+    array1MaxTransAccelList = [0.0,
+                               0.0,
+                               transAccelMax,
+                               transAccelMax,
+                               transAccelMax]
+
+    # Create the array element reference messages
+    array1ElementTransMessageList2 = list()
+    for i in range(numArrayElements):
+        array1PrescribedElementTransList[i].transAccelMax = array1MaxTransAccelList[i]  # [m/s^2]
+
+        array1ElementMessageData = messaging.PrescribedTransMsgPayload()
+        if (i == 0 or i == 1):
+            array1ElementMessageData.scalarPos = i * lenPanel  # [m]
+        else:
+            array1ElementMessageData.scalarPos = 2 * lenPanel  # [m]
+
+        array1ElementMessageData.scalarVel = 0.0  # [m/s]
+        array1ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array1ElementMessageData))
+
+        # Connect the translational messages to the translational profilers
+        array1PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array1ElementTransMessageList2[i])
+
+    # Set the simulation time
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + 2 * simTime2))
+
+    # Begin the simulation
+    scSim.ExecuteSimulation()
+
+    # Initialize the prescribedTrans module configuration data
+    transPosInit = transPosRef  # [m]
+    transPosRef = 3 * lenPanel  # [m]
+    transAccelMax = (transPosRef - transPosInit) / ((tCoast2 * tRamp) + (tRamp * tRamp))  # [m/s^2]
+
+    array1MaxTransAccelList = [0.0,
+                               0.0,
+                               0.0,
+                               transAccelMax,
+                               transAccelMax]
+
+    # Create the array element reference messages
+    array1ElementTransMessageList2 = list()
+    for i in range(numArrayElements):
+        array1PrescribedElementTransList[i].transAccelMax = array1MaxTransAccelList[i]  # [m/s^2]
+
+        array1ElementMessageData = messaging.PrescribedTransMsgPayload()
+        if (i == 0 or i == 1 or i == 2):
+            array1ElementMessageData.scalarPos = i * lenPanel  # [m]
+        else:
+            array1ElementMessageData.scalarPos = 3 * lenPanel  # [m]
+
+        array1ElementMessageData.scalarVel = 0.0  # [m/s]
+        array1ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array1ElementMessageData))
+
+        # Connect the translational messages to the translational profilers
+        array1PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array1ElementTransMessageList2[i])
+
+    # Set the simulation time
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + 3 * simTime2))
+
+    # Begin the simulation
+    scSim.ExecuteSimulation()
+
+    # Initialize the prescribedTrans module configuration data
+    transPosInit = transPosRef  # [m]
+    transPosRef = 4 * lenPanel  # [m]
+    transAccelMax = (transPosRef - transPosInit) / ((tCoast2 * tRamp) + (tRamp * tRamp))  # [m/s^2]
+
+    array1MaxTransAccelList = [0.0,
+                               0.0,
+                               0.0,
+                               0.0,
+                               transAccelMax]
+
+    # Create the array element reference messages
+    array1ElementTransMessageList2 = list()
+    for i in range(numArrayElements):
+        array1PrescribedElementTransList[i].transAccelMax = array1MaxTransAccelList[i]  # [m/s^2]
+
+        array1ElementMessageData = messaging.PrescribedTransMsgPayload()
+        if (i == 0 or i == 1 or i == 2 or i == 3):
+            array1ElementMessageData.scalarPos = i * lenPanel  # [m]
+        else:
+            array1ElementMessageData.scalarPos = 4 * lenPanel  # [m]
+
+        array1ElementMessageData.scalarVel = 0.0  # [m/s]
+        array1ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array1ElementMessageData))
+
+        # Connect the translational messages to the translational profilers
+        array1PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array1ElementTransMessageList2[i])
+
+    # Set the simulation time
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + (4 * simTime2) + 10))
 
     # Begin the simulation
     scSim.ExecuteSimulation()
@@ -366,27 +472,24 @@ def run(show_plots):
 
     # Set the simulation time
     simTime3 = tDeploy3 + 10  # [s]
-    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + simTime2 + simTime3))
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + (4 * simTime2) + 10 + simTime3))
 
     # Begin the simulation
     scSim.ExecuteSimulation()
 
     # Initialize the prescribedTrans module configuration data
-    tDeploy4 = 20 * 60  # [s]
-    tCoast4 = tDeploy4 - (2 * tRamp)
+    tDeploy4 = (20 * 60) / 4  # [s]
+    tCoast4 = tDeploy4 - (2 * tRamp)  # [s]
 
-    array2MaxTransAccelList = []
-    for i in range(numArrayElements):
-        transPosInit = array2TransPosInit  # [m]
-        transPosRef = - (i * lenPanel) - lenPanel  # [m]
+    transPosInit = array2TransPosInit  # [m]
+    transPosRef = - lenPanel  # [m]
+    transAccelMax = np.abs(transPosRef - transPosInit) / ((tCoast4 * tRamp) + (tRamp * tRamp))  # [m/s^2]
 
-        # Determine the position and velocity at the end of the ramp segment/start of the coast segment
-        if (transPosInit < transPosRef):
-            transAccelMax = (transPosRef - transPosInit) / ((tCoast4 * tRamp) + (tRamp * tRamp))  # [m/s^2]
-        else:
-            transAccelMax = (transPosRef - transPosInit) / - ((tCoast4 * tRamp) + (tRamp * tRamp))  # [m/s^2]
-
-        array2MaxTransAccelList.append(transAccelMax)
+    array2MaxTransAccelList = [0.0,
+                               transAccelMax,
+                               transAccelMax,
+                               transAccelMax,
+                               transAccelMax]
 
     # Create the array element reference messages
     array2ElementTransMessageList2 = list()
@@ -394,7 +497,11 @@ def run(show_plots):
         array2PrescribedElementTransList[i].transAccelMax = array2MaxTransAccelList[i]  # [m/s^2]
 
         array2ElementMessageData = messaging.PrescribedTransMsgPayload()
-        array2ElementMessageData.scalarPos = - (i * lenPanel) - lenPanel  # [m]
+        if i == 0:
+            array2ElementMessageData.scalarPos = - i * lenPanel  # [m]
+        else:
+            array2ElementMessageData.scalarPos = - lenPanel  # [m]
+
         array2ElementMessageData.scalarVel = 0.0  # [m/s]
         array2ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array2ElementMessageData))
 
@@ -402,8 +509,113 @@ def run(show_plots):
         array2PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array2ElementTransMessageList2[i])
 
     # Set the simulation time
-    simTime4 = tDeploy4 + 10  # [s]
-    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + simTime2 + simTime3 + simTime4))
+    simTime4 = tDeploy4  # [s]
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + (4 * simTime2) + 10 + simTime3 + simTime4))
+
+    # Begin the simulation
+    scSim.ExecuteSimulation()
+
+    # Initialize the prescribedTrans module configuration data
+    transPosInit = transPosRef  # [m]
+    transPosRef = - 2 * lenPanel  # [m]
+    transAccelMax = np.abs(transPosRef - transPosInit) / ((tCoast4 * tRamp) + (tRamp * tRamp))  # [m/s^2]
+
+    array2MaxTransAccelList = [0.0,
+                               0.0,
+                               transAccelMax,
+                               transAccelMax,
+                               transAccelMax]
+
+    # Create the array element reference messages
+    array2ElementTransMessageList2 = list()
+    for i in range(numArrayElements):
+        array2PrescribedElementTransList[i].transAccelMax = array2MaxTransAccelList[i]  # [m/s^2]
+
+        array2ElementMessageData = messaging.PrescribedTransMsgPayload()
+        if (i == 0 or i == 1):
+            array2ElementMessageData.scalarPos = - i * lenPanel  # [m]
+        else:
+            array2ElementMessageData.scalarPos = - 2 * lenPanel  # [m]
+
+        array2ElementMessageData.scalarVel = 0.0  # [m/s]
+        array2ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array2ElementMessageData))
+
+        # Connect the translational messages to the translational profilers
+        array2PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array2ElementTransMessageList2[i])
+
+    # Set the simulation time
+    simTime4 = tDeploy4  # [s]
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + (4 * simTime2) + 10 + simTime3 + (2 * simTime4)))
+
+    # Begin the simulation
+    scSim.ExecuteSimulation()
+
+    # Initialize the prescribedTrans module configuration data
+    transPosInit = transPosRef  # [m]
+    transPosRef = - 3 * lenPanel  # [m]
+    transAccelMax = np.abs(transPosRef - transPosInit) / ((tCoast4 * tRamp) + (tRamp * tRamp))  # [m/s^2]
+
+    array2MaxTransAccelList = [0.0,
+                               0.0,
+                               0.0,
+                               transAccelMax,
+                               transAccelMax]
+
+    # Create the array element reference messages
+    array2ElementTransMessageList2 = list()
+    for i in range(numArrayElements):
+        array2PrescribedElementTransList[i].transAccelMax = array2MaxTransAccelList[i]  # [m/s^2]
+
+        array2ElementMessageData = messaging.PrescribedTransMsgPayload()
+        if (i == 0 or i == 1 or i == 2):
+            array2ElementMessageData.scalarPos = - i * lenPanel  # [m]
+        else:
+            array2ElementMessageData.scalarPos = - 3 * lenPanel  # [m]
+
+        array2ElementMessageData.scalarVel = 0.0  # [m/s]
+        array2ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array2ElementMessageData))
+
+        # Connect the translational messages to the translational profilers
+        array2PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array2ElementTransMessageList2[i])
+
+    # Set the simulation time
+    simTime4 = tDeploy4  # [s]
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + (4 * simTime2) + 10 + simTime3 + (3 * simTime4)))
+
+    # Begin the simulation
+    scSim.ExecuteSimulation()
+
+    # Initialize the prescribedTrans module configuration data
+    transPosInit = transPosRef  # [m]
+    transPosRef = - 4 * lenPanel  # [m]
+    transAccelMax = np.abs(transPosRef - transPosInit) / ((tCoast4 * tRamp) + (tRamp * tRamp))  # [m/s^2]
+
+    array2MaxTransAccelList = [0.0,
+                               0.0,
+                               0.0,
+                               0.0,
+                               transAccelMax]
+
+    # Create the array element reference messages
+    array2ElementTransMessageList2 = list()
+    for i in range(numArrayElements):
+        array2PrescribedElementTransList[i].transAccelMax = array2MaxTransAccelList[i]  # [m/s^2]
+
+        array2ElementMessageData = messaging.PrescribedTransMsgPayload()
+        if (i == 0 or i == 1 or i == 2 or i == 3):
+            array2ElementMessageData.scalarPos = - i * lenPanel  # [m]
+        else:
+            array2ElementMessageData.scalarPos = - 4 * lenPanel  # [m]
+
+        array2ElementMessageData.scalarVel = 0.0  # [m/s]
+        array2ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array2ElementMessageData))
+
+        # Connect the translational messages to the translational profilers
+        array2PrescribedElementTransList[i].translatingBodyInMsg.subscribeTo(array2ElementTransMessageList2[i])
+
+    # Set the simulation time
+    simTime4 = tDeploy4  # [s]
+    scSim.ConfigureStopTime(macros.sec2nano(simTime1 + (4 * simTime2) + simTime3 + 20 + (4 * simTime4)))
 
     # Begin the simulation
     scSim.ExecuteSimulation()
@@ -467,6 +679,11 @@ def run(show_plots):
     finalRotAngMom = [rotAngMom_N[-1]]
     initialOrbEnergy = [[orbEnergy[0, 1]]]
     finalOrbEnergy = [orbEnergy[-1]]
+
+    # Write hub angular velocity data to a text file for deployment scenario comparison
+    omega_BN_B_teles_rigid_data_file = open(r"/Users/leahkiner/Desktop/omega_BN_B_teles_rigid_data.txt", "w+")
+    np.savetxt(omega_BN_B_teles_rigid_data_file, omega_BN_B)
+    omega_BN_B_teles_rigid_data_file.close()
 
     plt.close("all")
 
