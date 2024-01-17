@@ -47,11 +47,19 @@ def run(show_plots):
     scObject.ModelTag = "spacecraftBody"
 
     # Define the mass properties of the rigid spacecraft hub
-    scObject.hub.mHub = 800.0  # kg
+    # Calculate array element inertias (approximate as rectangular prisms)
+    massHub = 800  # [kg]
+    lengthHub = 2.0  # [m]
+    widthHub = 1.0  # [m]
+    depthHub = 1.0  # [m]
+    IHub_11 = (1/12) * massHub * (lengthHub * lengthHub + depthHub * depthHub)  # [kg m^2]
+    IHub_22 = (1/12) * massHub * (lengthHub * lengthHub + widthHub * widthHub)  # [kg m^2]
+    IHub_33 = (1/12) * massHub * (widthHub * widthHub + depthHub * depthHub)  # [kg m^2]
+    scObject.hub.mHub = massHub  # kg
     scObject.hub.r_BcB_B = [0.0, 0.0, 0.0]  # [m]
-    scObject.hub.IHubPntBc_B = [[1000.0, 0.0, 0.0],
-                                [0.0, 800.0, 0.0],
-                                [0.0, 0.0, 600.0]]
+    scObject.hub.IHubPntBc_B = [[IHub_11, 0.0, 0.0],
+                                [0.0, IHub_22, 0.0],
+                                [0.0, 0.0, IHub_33]]
 
     # Set the initial inertial hub states
     scObject.hub.r_CN_NInit = [0.0, 0.0, 0.0]
@@ -87,6 +95,15 @@ def run(show_plots):
     tRamp = 1.0  # [s]
     rotAxis_M = np.array([0.0, 1.0, 0.0])
 
+    # Calculate array element inertias (approximate as rectangular prisms)
+    massElement = 8.0  # [kg]
+    l = radiusArray  # [m]
+    w = 2 * radiusArray * np.cos(72 * macros.D2R)  # [m]
+    d = 0.01  # [m]
+    IElement_11 = (1/12) * massElement * (l * l + d * d)  # [kg m^2]
+    IElement_22 = (1/12) * massElement * (l * l + w * w)  # [kg m^2]
+    IElement_33 = (1/12) * massElement * (w * w + d * d)  # [kg m^2]
+
     # Rotation 1 initial parameters
     array1ThetaInit1 = 0.0 * macros.D2R  # [rad]
     array2ThetaInit1 = 0.0 * macros.D2R  # [rad]
@@ -114,14 +131,16 @@ def run(show_plots):
     for i in range(numArrayElements):
         array1ElementList.append(prescribedMotionStateEffector.PrescribedMotionStateEffector())
         array2ElementList.append(prescribedMotionStateEffector.PrescribedMotionStateEffector())
-        array1ElementList[i].mass = 8.0  # [kg]
-        array2ElementList[i].mass = 8.0  # [kg]
-        array1ElementList[i].IPntFc_F = [[31.9, 0.0, 0.0], [0.0, 18.5, 0.0], [0.0, 0.0, 49.5]]  # [kg m^2]
-        array2ElementList[i].IPntFc_F = [[31.9, 0.0, 0.0], [0.0, 18.5, 0.0], [0.0, 0.0, 49.5]]  # [kg m^2]
+        array1ElementList[i].mass = massElement  # [kg]
+        array2ElementList[i].mass = massElement  # [kg]
+        array1ElementList[i].IPntFc_F = [[IElement_11, 0.0, 0.0], [0.0, IElement_22, 0.0], [0.0, 0.0, IElement_33]]  # [kg m^2]
+        array2ElementList[i].IPntFc_F = [[IElement_11, 0.0, 0.0], [0.0, IElement_22, 0.0], [0.0, 0.0, IElement_33]]  # [kg m^2]
         array1ElementList[i].r_MB_B = r_M1B_B  # [m]
         array2ElementList[i].r_MB_B = r_M2B_B  # [m]
-        array1ElementList[i].r_FcF_F = [- radiusArray * np.cos(72 * macros.D2R), 0.0, (1/3) * radiusArray * np.sin(72 * macros.D2R)]  # [m]
-        array2ElementList[i].r_FcF_F = [radiusArray * np.cos(72 * macros.D2R), 0.0, (1/3) * radiusArray * np.sin(72 * macros.D2R)]  # [m]
+        array1ElementList[i].r_FcF_F = [- 0.5 * w, 0.0, 0.5 * radiusArray]  # [m] For rectangular wedge
+        array2ElementList[i].r_FcF_F = [0.5 * w, 0.0, 0.5 * radiusArray]  # [m] For rectangular wedge
+        # array1ElementList[i].r_FcF_F = [- radiusArray * np.cos(72 * macros.D2R), 0.0, (1/3) * radiusArray * np.sin(72 * macros.D2R)]  # [m] For triangular wedge
+        # array2ElementList[i].r_FcF_F = [radiusArray * np.cos(72 * macros.D2R), 0.0, (1/3) * radiusArray * np.sin(72 * macros.D2R)]  # [m] For triangular wedge
         array1ElementList[i].r_FM_M = r_FM1_M1Init1  # [m]
         array2ElementList[i].r_FM_M = r_FM2_M2Init1  # [m]
         array1ElementList[i].rPrime_FM_M = np.array([0.0, 0.0, 0.0])  # [m/s]
@@ -328,6 +347,8 @@ def run(show_plots):
     array1ElementRotMessageList2 = list()
     for i in range(numArrayElements):
         array1ElementList[i].prescribedTransMotionInMsg.subscribeTo(array1ElementTransMotionMessage)
+        array1ElementList[i].r_FcF_F = [- 0.5 * w, 0.0, - 0.5 * radiusArray]  # [m] For rectangular wedge
+        # array1ElementList[i].r_FcF_F = [- (2/3) * radiusArray * np.cos(72 * macros.D2R) * np.sin(18 * macros.D2R), 0.0, - (2/3) * radiusArray * np.cos(72 * macros.D2R) * np.cos(18 * macros.D2R)]  # [m] For triangular wedge
         array1ElementList[i].r_FM_M = r_FM1_M1Init2  # [m]
         array1ElementList[i].sigma_FM = sigma_FM1Init2
 
@@ -410,7 +431,8 @@ def run(show_plots):
     array2ElementRotMessageList3 = list()
     for i in range(numArrayElements):
         array2ElementList[i].prescribedTransMotionInMsg.subscribeTo(array2ElementTransMotionMessage)
-        array2ElementList[i].r_FcF_F = [- (2/3) * radiusArray * np.cos(72 * macros.D2R) * np.sin(18 * macros.D2R), 0.0, - (2/3) * radiusArray * np.cos(72 * macros.D2R) * np.cos(18 * macros.D2R)]  # [m]
+        array2ElementList[i].r_FcF_F = [0.5 * w, 0.0, - 0.5 * radiusArray]  # [m] For rectangular wedge
+        # array2ElementList[i].r_FcF_F = [(2/3) * radiusArray * np.cos(72 * macros.D2R) * np.sin(18 * macros.D2R), 0.0, - (2/3) * radiusArray * np.cos(72 * macros.D2R) * np.cos(18 * macros.D2R)]  # [m] For triangular wedge
         array2ElementList[i].r_FM_M = r_FM2_M2Init2  # [m]
         array2ElementList[i].sigma_FM = sigma_FM2Init2
 

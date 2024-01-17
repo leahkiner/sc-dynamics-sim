@@ -47,11 +47,19 @@ def run(show_plots):
     scObject.ModelTag = "spacecraftBody"
 
     # Define the mass properties of the rigid spacecraft hub
-    scObject.hub.mHub = 800.0  # kg
+    # Calculate array element inertias (approximate as rectangular prisms)
+    massHub = 800  # [kg]
+    lengthHub = 2.0  # [m]
+    widthHub = 1.0  # [m]
+    depthHub = 1.0  # [m]
+    IHub_11 = (1/12) * massHub * (lengthHub * lengthHub + depthHub * depthHub)  # [kg m^2]
+    IHub_22 = (1/12) * massHub * (lengthHub * lengthHub + widthHub * widthHub)  # [kg m^2]
+    IHub_33 = (1/12) * massHub * (widthHub * widthHub + depthHub * depthHub)  # [kg m^2]
+    scObject.hub.mHub = massHub  # kg
     scObject.hub.r_BcB_B = [0.0, 0.0, 0.0]  # [m]
-    scObject.hub.IHubPntBc_B = [[1000.0, 0.0, 0.0],
-                                [0.0, 800.0, 0.0],
-                                [0.0, 0.0, 600.0]]
+    scObject.hub.IHubPntBc_B = [[IHub_11, 0.0, 0.0],
+                                [0.0, IHub_22, 0.0],
+                                [0.0, 0.0, IHub_33]]
 
     # Set the initial inertial hub states
     scObject.hub.r_CN_NInit = [0.0, 0.0, 0.0]
@@ -70,6 +78,15 @@ def run(show_plots):
     transAxis_M = np.array([1.0, 0.0, 0.0])
     rotAxis_M = np.array([0.0, 1.0, 0.0])
     lenPanel = 2.0  # [m]
+
+    # Calculate array element inertias (approximate as rectangular prisms)
+    massElement = 10  # [kg]
+    l = lenPanel  # [m]
+    w = 0.75  # [m]
+    d = 0.01  # [m]
+    I_11 = (1/12) * massElement * (l * l + d * d)  # [kg m^2]
+    I_22 = (1/12) * massElement * (l * l + w * w)  # [kg m^2]
+    I_33 = (1/12) * massElement * (w * w + d * d)  # [kg m^2]
 
     # Rotation initial parameters
     array1ThetaInit = 90.0 * macros.D2R  # [rad]
@@ -92,10 +109,10 @@ def run(show_plots):
     for i in range(numArrayElements):
         array1ElementList.append(prescribedMotionStateEffector.PrescribedMotionStateEffector())
         array2ElementList.append(prescribedMotionStateEffector.PrescribedMotionStateEffector())
-        array1ElementList[i].mass = 10.0  # [kg]
-        array2ElementList[i].mass = 10.0  # [kg]
-        array1ElementList[i].IPntFc_F = [[31.9, 0.0, 0.0], [0.0, 18.5, 0.0], [0.0, 0.0, 49.5]]  # [kg m^2]
-        array2ElementList[i].IPntFc_F = [[31.9, 0.0, 0.0], [0.0, 18.5, 0.0], [0.0, 0.0, 49.5]]  # [kg m^2]
+        array1ElementList[i].mass = massElement  # [kg]
+        array2ElementList[i].mass = massElement  # [kg]
+        array1ElementList[i].IPntFc_F = [[I_11, 0.0, 0.0], [0.0, I_22, 0.0], [0.0, 0.0, I_33]]  # [kg m^2]
+        array2ElementList[i].IPntFc_F = [[I_11, 0.0, 0.0], [0.0, I_22, 0.0], [0.0, 0.0, I_33]]  # [kg m^2]
         array1ElementList[i].r_MB_B = r_M1B_B  # [m]
         array2ElementList[i].r_MB_B = r_M2B_B  # [m]
         array1ElementList[i].r_FcF_F = [0.5 * lenPanel, 0.0, 0.0]  # [m]
