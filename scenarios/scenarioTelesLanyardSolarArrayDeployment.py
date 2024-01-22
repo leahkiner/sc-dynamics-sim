@@ -316,7 +316,7 @@ def run(show_plots):
     array1MaxTransAccelList = []
     for i in range(numArrayElements):
         transPosInit = array1TransPosInit  # [m]
-        transPosRef = (i * lenPanel) + lenPanel  # [m]
+        transPosRef = i * lenPanel  # [m]
 
         # Determine the position and velocity at the end of the ramp segment/start of the coast segment
         if (transPosInit < transPosRef):
@@ -332,7 +332,7 @@ def run(show_plots):
         array1PrescribedElementTransList[i].transAccelMax = array1MaxTransAccelList[i]  # [m/s^2]
 
         array1ElementMessageData = messaging.PrescribedTransMsgPayload()
-        array1ElementMessageData.scalarPos = (i * lenPanel) + lenPanel  # [m]
+        array1ElementMessageData.scalarPos = i * lenPanel  # [m]
         array1ElementMessageData.scalarVel = 0.0  # [m/s]
         array1ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array1ElementMessageData))
 
@@ -391,7 +391,7 @@ def run(show_plots):
     array2MaxTransAccelList = []
     for i in range(numArrayElements):
         transPosInit = array2TransPosInit  # [m]
-        transPosRef = - (i * lenPanel) - lenPanel  # [m]
+        transPosRef = - (i * lenPanel)  # [m]
 
         # Determine the position and velocity at the end of the ramp segment/start of the coast segment
         if (transPosInit < transPosRef):
@@ -407,7 +407,7 @@ def run(show_plots):
         array2PrescribedElementTransList[i].transAccelMax = array2MaxTransAccelList[i]  # [m/s^2]
 
         array2ElementMessageData = messaging.PrescribedTransMsgPayload()
-        array2ElementMessageData.scalarPos = - (i * lenPanel) - lenPanel  # [m]
+        array2ElementMessageData.scalarPos = - (i * lenPanel)  # [m]
         array2ElementMessageData.scalarVel = 0.0  # [m/s]
         array2ElementTransMessageList2.append(messaging.PrescribedTransMsg().write(array2ElementMessageData))
 
