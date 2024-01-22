@@ -64,7 +64,7 @@ def run(show_plots):
     # Set the initial inertial hub states
     scObject.hub.r_CN_NInit = [0.0, 0.0, 0.0]
     scObject.hub.v_CN_NInit = [0.0, 0.0, 0.0]
-    scObject.hub.omega_BN_BInit = [0.001, 0.001, 0.001]
+    scObject.hub.omega_BN_BInit = [0.0, 0.0, 0.0]
     scObject.hub.sigma_BNInit = [0.0, 0.0, 0.0]
 
     # Add the scObject to the runtime call list
