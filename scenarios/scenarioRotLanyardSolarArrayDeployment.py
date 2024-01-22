@@ -4,20 +4,17 @@
 #   Creation Date:      Jan 2, 2024
 #
 
-import pytest
 import inspect
-import os
+import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
+import os
+from Basilisk.architecture import messaging
+from Basilisk.fswAlgorithms import prescribedRot1DOF
+from Basilisk.simulation import spacecraft, prescribedMotionStateEffector
 from Basilisk.utilities import SimulationBaseClass
+from Basilisk.utilities import macros, RigidBodyKinematics as rbk
 from Basilisk.utilities import unitTestSupport
 from Basilisk.utilities import vizSupport
-import matplotlib
-import matplotlib.pyplot as plt
-from Basilisk.fswAlgorithms import prescribedRot1DOF, prescribedTrans
-from Basilisk.simulation import spacecraft, prescribedMotionStateEffector, gravityEffector
-from Basilisk.utilities import macros, RigidBodyKinematics as rbk
-from Basilisk.architecture import messaging
 
 filename = inspect.getframeinfo(inspect.currentframe()).filename
 path = os.path.dirname(os.path.abspath(filename))
