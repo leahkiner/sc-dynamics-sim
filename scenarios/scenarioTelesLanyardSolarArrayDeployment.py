@@ -250,15 +250,8 @@ def run(show_plots):
         array1ElementList[i].prescribedRotMotionInMsg.subscribeTo(array1PrescribedElementRotList[i].prescribedRotMotionOutMsg)
         array2ElementList[i].prescribedRotMotionInMsg.subscribeTo(array2PrescribedElementRotList[i].prescribedRotMotionOutMsg)
 
-    # Add Earth gravity to the simulation
-    # earthGravBody = gravityEffector.GravBodyData()
-    # earthGravBody.planetName = "earth_planet_data"
-    # earthGravBody.mu = 0.3986004415E+15
-    # earthGravBody.isCentralBody = True
-    # scObject.gravField.gravBodies = spacecraft.GravBodyVector([earthGravBody])
-
     # Add energy and momentum variables to log
-    scObjectLog = scObject.logger(["totOrbEnergy", "totOrbAngMomPntN_N", "totRotAngMomPntC_N", "totRotEnergy"], dataRecRate)
+    scObjectLog = scObject.logger(["totRotAngMomPntC_N", "totRotEnergy"], dataRecRate)
     scSim.AddModelToTask(fswTaskName, scObjectLog)
 
     # Add other states to log
@@ -429,8 +422,6 @@ def run(show_plots):
     scSim.ExecuteSimulation()
 
     # Extract the logged data
-    orbEnergy = unitTestSupport.addTimeColumn(scObjectLog.times(), scObjectLog.totOrbEnergy)
-    orbAngMom_N = unitTestSupport.addTimeColumn(scObjectLog.times(), scObjectLog.totOrbAngMomPntN_N)
     rotAngMom_N = unitTestSupport.addTimeColumn(scObjectLog.times(), scObjectLog.totRotAngMomPntC_N)
     rotEnergy = unitTestSupport.addTimeColumn(scObjectLog.times(), scObjectLog.totRotEnergy)
     timespan = scStateData.times() * macros.NANO2MIN  # [min]
@@ -479,14 +470,6 @@ def run(show_plots):
     thetaDot_array2Element3 = array2Element3PrescribedRotDataLog.thetaDot * macros.R2D  # [deg/s]
     thetaDot_array2Element4 = array2Element4PrescribedRotDataLog.thetaDot * macros.R2D  # [deg/s]
     thetaDot_array2Element5 = array2Element5PrescribedRotDataLog.thetaDot * macros.R2D  # [deg/s]
-
-    # Setup the conservation quantities
-    initialOrbAngMom_N = [[orbAngMom_N[0, 1], orbAngMom_N[0, 2], orbAngMom_N[0, 3]]]
-    finalOrbAngMom = [orbAngMom_N[-1]]
-    initialRotAngMom_N = [[rotAngMom_N[0, 1], rotAngMom_N[0, 2], rotAngMom_N[0, 3]]]
-    finalRotAngMom = [rotAngMom_N[-1]]
-    initialOrbEnergy = [[orbEnergy[0, 1]]]
-    finalOrbEnergy = [orbEnergy[-1]]
 
     # Write hub angular velocity data to a text file for deployment scenario comparison
     omega_BN_B_teles_lanyard_data_file = open(r"/Users/leahkiner/Desktop/GNCBreck2024/DataForPlotting/omega_BN_B_teles_lanyard_data.txt", "w+")
@@ -644,41 +627,23 @@ def run(show_plots):
     plt.grid(True)
 
     # Plotting: Conservation quantities
-    # plt.figure()
-    # plt.clf()
-    # plt.plot(timespan, (orbAngMom_N[:, 1] - orbAngMom_N[0, 1]) / orbAngMom_N[0, 1],
-    #          timespan, (orbAngMom_N[:, 2] - orbAngMom_N[0, 2]) / orbAngMom_N[0, 2],
-    #          timespan, (orbAngMom_N[:, 3] - orbAngMom_N[0, 3]) / orbAngMom_N[0, 3])
-    # plt.title('Orbital Angular Momentum Relative Difference', fontsize=16)
-    # plt.ylabel('(Nms)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.grid(True)
-    #
-    # plt.figure()
-    # plt.clf()
-    # plt.plot(timespan, (orbEnergy[:, 1] - orbEnergy[0, 1]) / orbEnergy[0, 1])
-    # plt.title('Orbital Energy Relative Difference', fontsize=16)
-    # plt.ylabel('Energy (J)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.grid(True)
-    #
-    # plt.figure()
-    # plt.clf()
-    # plt.plot(timespan, (rotAngMom_N[:, 1] - rotAngMom_N[0, 1]) / rotAngMom_N[0, 1],
-    #          timespan, (rotAngMom_N[:, 2] - rotAngMom_N[0, 2]) / rotAngMom_N[0, 2],
-    #          timespan, (rotAngMom_N[:, 3] - rotAngMom_N[0, 3]) / rotAngMom_N[0, 3])
-    # plt.title('Rotational Angular Momentum Difference', fontsize=16)
-    # plt.ylabel('(Nms)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.grid(True)
-    #
-    # plt.figure()
-    # plt.clf()
-    # plt.plot(timespan, (rotEnergy[:, 1] - rotEnergy[0, 1]) / rotEnergy[0, 1])
-    # plt.title('Total Energy Difference', fontsize=16)
-    # plt.ylabel('Energy (J)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.grid(True)
+    plt.figure()
+    plt.clf()
+    plt.plot(timespan, rotAngMom_N[:, 1] - rotAngMom_N[0, 1],
+             timespan, rotAngMom_N[:, 2] - rotAngMom_N[0, 2],
+             timespan, rotAngMom_N[:, 3] - rotAngMom_N[0, 3])
+    plt.title('Rotational Angular Momentum Difference', fontsize=16)
+    plt.ylabel('(Nms)', fontsize=14)
+    plt.xlabel('Time (min)', fontsize=14)
+    plt.grid(True)
+
+    plt.figure()
+    plt.clf()
+    plt.plot(timespan, rotEnergy[:, 1] - rotEnergy[0, 1])
+    plt.title('Total Energy Difference', fontsize=16)
+    plt.ylabel('Energy (J)', fontsize=14)
+    plt.xlabel('Time (min)', fontsize=14)
+    plt.grid(True)
 
     if show_plots:
         plt.show()
