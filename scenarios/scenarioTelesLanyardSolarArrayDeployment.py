@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from Basilisk.utilities import SimulationBaseClass
 from Basilisk.utilities import unitTestSupport
+from Basilisk.utilities import vizSupport
 import matplotlib
 import matplotlib.pyplot as plt
 from Basilisk.fswAlgorithms import prescribedRot1DOF, prescribedTrans
@@ -298,6 +299,34 @@ def run(show_plots):
     scSim.AddModelToTask(fswTaskName, array2Element3PrescribedRotDataLog)
     scSim.AddModelToTask(fswTaskName, array2Element4PrescribedRotDataLog)
     scSim.AddModelToTask(fswTaskName, array2Element5PrescribedRotDataLog)
+
+    # Set up Vizard visualization
+    scBodyList = [scObject]
+    for i in range(numArrayElements):
+        scBodyList.append(["Array1Element" + str(i+1), array1ElementList[i].prescribedMotionConfigLogOutMsg])
+        scBodyList.append(["Array2Element" + str(i+1), array2ElementList[i].prescribedMotionConfigLogOutMsg])
+
+    viz = vizSupport.enableUnityVisualization(scSim, dynTaskName, scBodyList, saveFile=filename)
+
+    vizSupport.createCustomModel(viz
+                                 , simBodiesToModify=[scObject.ModelTag]
+                                 , modelPath="CYLINDER"
+                                 , scale=[widthHub, depthHub, lengthHub]
+                                 , color=vizSupport.toRGBA255("gray"))
+
+    for i in range(numArrayElements):
+        vizSupport.createCustomModel(viz
+                                     , simBodiesToModify=["Array1Element" + str(i+1)]
+                                     , modelPath="CUBE"
+                                     , scale=[l, w, d]
+                                     , color=vizSupport.toRGBA255("green"))
+        vizSupport.createCustomModel(viz
+                                     , simBodiesToModify=["Array2Element" + str(i+1)]
+                                     , modelPath="CUBE"
+                                     , scale=[l, w, d]
+                                     , color=vizSupport.toRGBA255("blue"))
+
+    viz.settings.showSpacecraftAsSprites = -1
 
     # Initialize the simulation
     scSim.InitializeSimulation()
