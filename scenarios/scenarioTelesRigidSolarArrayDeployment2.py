@@ -30,8 +30,8 @@ def run(show_plots):
     scSim = SimulationBaseClass.SimBaseClass()
 
     # Create test thread
-    dynTimeStep = 0.01  # [s]
-    fswTimeStep = 0.1  # [s]
+    dynTimeStep = 0.001  # [s]
+    fswTimeStep = 0.01  # [s]
     dataRecStep = 1.0  # [s]
     dynProcessRate = macros.sec2nano(dynTimeStep)  # [ns]
     fswProcessRate = macros.sec2nano(fswTimeStep)  # [ns]
