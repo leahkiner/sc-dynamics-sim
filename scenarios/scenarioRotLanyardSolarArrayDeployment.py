@@ -97,7 +97,7 @@ def run(show_plots):
     massElement = 8.0  # [kg]
     l = radiusArray  # [m]
     w = 2 * radiusArray * np.cos(72 * macros.D2R)  # [m]
-    d = 0.01  # [m]
+    d = 0.05  # [m]
     IElement_11 = (1/12) * massElement * (l * l + d * d)  # [kg m^2]
     IElement_22 = (1/12) * massElement * (l * l + w * w)  # [kg m^2]
     IElement_33 = (1/12) * massElement * (w * w + d * d)  # [kg m^2]

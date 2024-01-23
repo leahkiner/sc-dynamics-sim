@@ -81,7 +81,7 @@ def run(show_plots):
     massElement = 10  # [kg]
     l = lenPanel  # [m]
     w = 0.75  # [m]
-    d = 0.01  # [m]
+    d = 0.05  # [m]
     I_11 = (1/12) * massElement * (l * l + d * d)  # [kg m^2]
     I_22 = (1/12) * massElement * (l * l + w * w)  # [kg m^2]
     I_33 = (1/12) * massElement * (w * w + d * d)  # [kg m^2]
