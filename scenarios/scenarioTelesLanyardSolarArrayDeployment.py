@@ -637,7 +637,7 @@ def run(show_plots):
     # plt.title(r'$\sigma_{\mathcal{B}/\mathcal{N}}$ Spacecraft Inertial MRP Attitude', fontsize=16)
     plt.ylabel('', fontsize=14)
     plt.xlabel('Time (min)', fontsize=14)
-    plt.legend(loc='lower left', prop={'size': 12})
+    plt.legend(loc='upper right', prop={'size': 12})
     plt.grid(True)
 
     # Plot omega_BN_B
@@ -649,27 +649,27 @@ def run(show_plots):
     # plt.title(r'Spacecraft Hub Angular Velocity ${}^\mathcal{B} \omega_{\mathcal{B}/\mathcal{N}}$', fontsize=16)
     plt.xlabel('Time (min)', fontsize=14)
     plt.ylabel('(deg/s)', fontsize=14)
-    plt.legend(loc='lower left', prop={'size': 12})
+    plt.legend(loc='upper right', prop={'size': 12})
     plt.grid(True)
 
-    # Plotting: Conservation quantities
-    plt.figure()
-    plt.clf()
-    plt.plot(timespan, rotAngMom_N[:, 1] - rotAngMom_N[0, 1],
-             timespan, rotAngMom_N[:, 2] - rotAngMom_N[0, 2],
-             timespan, rotAngMom_N[:, 3] - rotAngMom_N[0, 3])
-    plt.title('Rotational Angular Momentum Difference', fontsize=16)
-    plt.ylabel('(Nms)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.grid(True)
-
-    plt.figure()
-    plt.clf()
-    plt.plot(timespan, rotEnergy[:, 1] - rotEnergy[0, 1])
-    plt.title('Total Energy Difference', fontsize=16)
-    plt.ylabel('Energy (J)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.grid(True)
+    # # Plotting: Conservation quantities
+    # plt.figure()
+    # plt.clf()
+    # plt.plot(timespan, rotAngMom_N[:, 1] - rotAngMom_N[0, 1],
+    #          timespan, rotAngMom_N[:, 2] - rotAngMom_N[0, 2],
+    #          timespan, rotAngMom_N[:, 3] - rotAngMom_N[0, 3])
+    # plt.title('Rotational Angular Momentum Difference', fontsize=16)
+    # plt.ylabel('(Nms)', fontsize=14)
+    # plt.xlabel('Time (min)', fontsize=14)
+    # plt.grid(True)
+    #
+    # plt.figure()
+    # plt.clf()
+    # plt.plot(timespan, rotEnergy[:, 1] - rotEnergy[0, 1])
+    # plt.title('Total Energy Difference', fontsize=16)
+    # plt.ylabel('Energy (J)', fontsize=14)
+    # plt.xlabel('Time (min)', fontsize=14)
+    # plt.grid(True)
 
     if show_plots:
         plt.show()

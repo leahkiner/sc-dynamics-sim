@@ -745,10 +745,10 @@ def run(show_plots):
     plt.plot(timespan, transPos_array1Element3, label=r'$l_3$')
     plt.plot(timespan, transPos_array1Element4, label=r'$l_4$')
     plt.plot(timespan, transPos_array1Element5, label=r'$l_5$')
-    # plt.title(r'Array 1 Element Translational Positions', fontsize=16)
-    plt.ylabel('(m)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.legend(loc='upper left', prop={'size': 12})
+    # plt.title(r'Array 1 Element Translational Positions', fontsize=20)
+    plt.ylabel('(m)', fontsize=18)
+    plt.xlabel('Time (min)', fontsize=18)
+    plt.legend(loc='upper left', prop={'size': 14})
     plt.grid(True)
 
     # Plot array 2 element angles
@@ -759,10 +759,10 @@ def run(show_plots):
     plt.plot(timespan, transPos_array2Element3, label=r'$l_3$')
     plt.plot(timespan, transPos_array2Element4, label=r'$l_4$')
     plt.plot(timespan, transPos_array2Element5, label=r'$l_5$')
-    # plt.title(r'Array 2 Element Translational Positions', fontsize=16)
-    plt.ylabel('(m)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.legend(loc='lower left', prop={'size': 12})
+    # plt.title(r'Array 2 Element Translational Positions', fontsize=20)
+    plt.ylabel('(m)', fontsize=18)
+    plt.xlabel('Time (min)', fontsize=18)
+    plt.legend(loc='lower left', prop={'size': 14})
     plt.grid(True)
 
     # # Plot array 1 element velocities
@@ -773,10 +773,10 @@ def run(show_plots):
     # plt.plot(timespan, transVel_array1Element3, label=r'$\dot{l}_3$')
     # plt.plot(timespan, transVel_array1Element4, label=r'$\dot{l}_4$')
     # plt.plot(timespan, transVel_array1Element5, label=r'$\dot{l}_5$')
-    # plt.title(r'Array 1 Element Translational Velocities', fontsize=16)
-    # plt.ylabel('(m/s)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.legend(loc='center right', prop={'size': 12})
+    # plt.title(r'Array 1 Element Translational Velocities', fontsize=20)
+    # plt.ylabel('(m/s)', fontsize=18)
+    # plt.xlabel('Time (min)', fontsize=18)
+    # plt.legend(loc='center right', prop={'size': 14})
     # plt.grid(True)
     #
     # # Plot array 2 element velocities
@@ -787,10 +787,10 @@ def run(show_plots):
     # plt.plot(timespan, transVel_array2Element3, label=r'$\dot{l}_3$')
     # plt.plot(timespan, transVel_array2Element4, label=r'$\dot{l}_4$')
     # plt.plot(timespan, transVel_array2Element5, label=r'$\dot{l}_5$')
-    # plt.title(r'Array 1 Element Translational Velocities', fontsize=16)
-    # plt.ylabel('(m/s)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.legend(loc='center right', prop={'size': 12})
+    # plt.title(r'Array 1 Element Translational Velocities', fontsize=20)
+    # plt.ylabel('(m/s)', fontsize=18)
+    # plt.xlabel('Time (min)', fontsize=18)
+    # plt.legend(loc='center right', prop={'size': 14})
     # plt.grid(True)
 
     # Plot array 1 element angles
@@ -801,10 +801,10 @@ def run(show_plots):
     plt.plot(timespan, theta_array1Element3, label=r'$\theta_3$')
     plt.plot(timespan, theta_array1Element4, label=r'$\theta_4$')
     plt.plot(timespan, theta_array1Element5, label=r'$\theta_5$')
-    # plt.title(r'Array 1 Element Angles', fontsize=16)
-    plt.ylabel('(deg)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.legend(loc='center right', prop={'size': 12})
+    # plt.title(r'Array 1 Element Angles', fontsize=20)
+    plt.ylabel('(deg)', fontsize=18)
+    plt.xlabel('Time (min)', fontsize=18)
+    plt.legend(loc='center right', prop={'size': 14})
     plt.grid(True)
 
     # Plot array 2 element angles
@@ -815,10 +815,10 @@ def run(show_plots):
     plt.plot(timespan, theta_array2Element3, label=r'$\theta_3$')
     plt.plot(timespan, theta_array2Element4, label=r'$\theta_4$')
     plt.plot(timespan, theta_array2Element5, label=r'$\theta_5$')
-    # plt.title(r'Array 2 Element Angles', fontsize=16)
-    plt.ylabel('(deg)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.legend(loc='center right', prop={'size': 12})
+    # plt.title(r'Array 2 Element Angles', fontsize=20)
+    plt.ylabel('(deg)', fontsize=18)
+    plt.xlabel('Time (min)', fontsize=18)
+    plt.legend(loc='center right', prop={'size': 14})
     plt.grid(True)
 
     # # Plot array 1 element angle rates
@@ -829,10 +829,10 @@ def run(show_plots):
     # plt.plot(timespan, thetaDot_array1Element3, label=r'$\dot{\theta}_3$')
     # plt.plot(timespan, thetaDot_array1Element4, label=r'$\dot{\theta}_4$')
     # plt.plot(timespan, thetaDot_array1Element5, label=r'$\dot{\theta}_5$')
-    # plt.title(r'Array 1 Element Angle Rates', fontsize=16)
-    # plt.ylabel('(deg/s)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.legend(loc='center right', prop={'size': 12})
+    # plt.title(r'Array 1 Element Angle Rates', fontsize=20)
+    # plt.ylabel('(deg/s)', fontsize=18)
+    # plt.xlabel('Time (min)', fontsize=18)
+    # plt.legend(loc='center right', prop={'size': 14})
     # plt.grid(True)
     #
     # # Plot array 2 element angle rates
@@ -843,10 +843,10 @@ def run(show_plots):
     # plt.plot(timespan, thetaDot_array2Element3, label=r'$\dot{\theta}_3$')
     # plt.plot(timespan, thetaDot_array2Element4, label=r'$\dot{\theta}_4$')
     # plt.plot(timespan, thetaDot_array2Element5, label=r'$\dot{\theta}_5$')
-    # plt.title(r'Array 2 Element Angle Rates', fontsize=16)
-    # plt.ylabel('(deg/s)', fontsize=14)
-    # plt.xlabel('Time (min)', fontsize=14)
-    # plt.legend(loc='center left', prop={'size': 12})
+    # plt.title(r'Array 2 Element Angle Rates', fontsize=20)
+    # plt.ylabel('(deg/s)', fontsize=18)
+    # plt.xlabel('Time (min)', fontsize=18)
+    # plt.legend(loc='center left', prop={'size': 14})
     # plt.grid(True)
 
     # Plot r_BN_N
@@ -855,10 +855,10 @@ def run(show_plots):
     plt.plot(timespan, r_BN_N[:, 0], label=r'$r_{1}$')
     plt.plot(timespan, r_BN_N[:, 1], label=r'$r_{2}$')
     plt.plot(timespan, r_BN_N[:, 2], label=r'$r_{3}$')
-    # plt.title(r'${}^\mathcal{N} r_{\mathcal{B}/\mathcal{N}}$ Spacecraft Inertial Trajectory', fontsize=16)
-    plt.ylabel('(m)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.legend(loc='lower left', prop={'size': 12})
+    # plt.title(r'${}^\mathcal{N} r_{\mathcal{B}/\mathcal{N}}$ Spacecraft Inertial Trajectory', fontsize=20)
+    plt.ylabel('(m)', fontsize=18)
+    plt.xlabel('Time (min)', fontsize=18)
+    plt.legend(loc='lower left', prop={'size': 14})
     plt.grid(True)
 
     # Plot sigma_BN
@@ -867,10 +867,10 @@ def run(show_plots):
     plt.plot(timespan, sigma_BN[:, 0], label=r'$\sigma_{1}$')
     plt.plot(timespan, sigma_BN[:, 1], label=r'$\sigma_{2}$')
     plt.plot(timespan, sigma_BN[:, 2], label=r'$\sigma_{3}$')
-    # plt.title(r'$\sigma_{\mathcal{B}/\mathcal{N}}$ Spacecraft Inertial MRP Attitude', fontsize=16)
-    plt.ylabel('', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.legend(loc='upper right', prop={'size': 12})
+    # plt.title(r'$\sigma_{\mathcal{B}/\mathcal{N}}$ Spacecraft Inertial MRP Attitude', fontsize=20)
+    plt.ylabel('', fontsize=18)
+    plt.xlabel('Time (min)', fontsize=18)
+    plt.legend(loc='upper right', prop={'size': 14})
     plt.grid(True)
 
     # Plot omega_BN_B
@@ -879,30 +879,30 @@ def run(show_plots):
     plt.plot(timespan, omega_BN_B[:, 0], label=r'$\omega_{1}$')
     plt.plot(timespan, omega_BN_B[:, 1], label=r'$\omega_{2}$')
     plt.plot(timespan, omega_BN_B[:, 2], label=r'$\omega_{3}$')
-    # plt.title(r'Spacecraft Hub Angular Velocity ${}^\mathcal{B} \omega_{\mathcal{B}/\mathcal{N}}$', fontsize=16)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.ylabel('(deg/s)', fontsize=14)
-    plt.legend(loc='lower left', prop={'size': 12})
+    # plt.title(r'Spacecraft Hub Angular Velocity ${}^\mathcal{B} \omega_{\mathcal{B}/\mathcal{N}}$', fontsize=20)
+    plt.xlabel('Time (min)', fontsize=18)
+    plt.ylabel('(deg/s)', fontsize=18)
+    plt.legend(loc='upper right', prop={'size': 14})
     plt.grid(True)
 
-    # Plotting conservation quantities
-    plt.figure()
-    plt.clf()
-    plt.plot(timespan, rotAngMom_N[:, 1] - rotAngMom_N[0, 1],
-             timespan, rotAngMom_N[:, 2] - rotAngMom_N[0, 2],
-             timespan, rotAngMom_N[:, 3] - rotAngMom_N[0, 3])
-    plt.title('Rotational Angular Momentum Difference', fontsize=16)
-    plt.ylabel('(Nms)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.grid(True)
-
-    plt.figure()
-    plt.clf()
-    plt.plot(timespan, rotEnergy[:, 1] - rotEnergy[0, 1])
-    plt.title('Total Energy Difference', fontsize=16)
-    plt.ylabel('Energy (J)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.grid(True)
+    # # Plotting conservation quantities
+    # plt.figure()
+    # plt.clf()
+    # plt.plot(timespan, rotAngMom_N[:, 1] - rotAngMom_N[0, 1],
+    #          timespan, rotAngMom_N[:, 2] - rotAngMom_N[0, 2],
+    #          timespan, rotAngMom_N[:, 3] - rotAngMom_N[0, 3])
+    # plt.title('Rotational Angular Momentum Difference', fontsize=20)
+    # plt.ylabel('(Nms)', fontsize=18)
+    # plt.xlabel('Time (min)', fontsize=18)
+    # plt.grid(True)
+    # 
+    # plt.figure()
+    # plt.clf()
+    # plt.plot(timespan, rotEnergy[:, 1] - rotEnergy[0, 1])
+    # plt.title('Total Energy Difference', fontsize=20)
+    # plt.ylabel('Energy (J)', fontsize=18)
+    # plt.xlabel('Time (min)', fontsize=18)
+    # plt.grid(True)
 
     if show_plots:
         plt.show()

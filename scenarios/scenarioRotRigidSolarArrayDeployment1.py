@@ -1279,24 +1279,24 @@ def run(show_plots):
     plt.legend(loc='lower right', prop={'size': 12})
     plt.grid(True)
 
-    # Plotting: Conservation quantities
-    plt.figure()
-    plt.clf()
-    plt.plot(timespan, rotAngMom_N[:, 1] - rotAngMom_N[0, 1],
-             timespan, rotAngMom_N[:, 2] - rotAngMom_N[0, 2],
-             timespan, rotAngMom_N[:, 3] - rotAngMom_N[0, 3])
-    plt.title('Rotational Angular Momentum Difference', fontsize=16)
-    plt.ylabel('(Nms)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.grid(True)
-
-    plt.figure()
-    plt.clf()
-    plt.plot(timespan, rotEnergy[:, 1] - rotEnergy[0, 1])
-    plt.title('Total Energy Difference', fontsize=16)
-    plt.ylabel('Energy (J)', fontsize=14)
-    plt.xlabel('Time (min)', fontsize=14)
-    plt.grid(True)
+    # # Plotting: Conservation quantities
+    # plt.figure()
+    # plt.clf()
+    # plt.plot(timespan, rotAngMom_N[:, 1] - rotAngMom_N[0, 1],
+    #          timespan, rotAngMom_N[:, 2] - rotAngMom_N[0, 2],
+    #          timespan, rotAngMom_N[:, 3] - rotAngMom_N[0, 3])
+    # plt.title('Rotational Angular Momentum Difference', fontsize=16)
+    # plt.ylabel('(Nms)', fontsize=14)
+    # plt.xlabel('Time (min)', fontsize=14)
+    # plt.grid(True)
+    #
+    # plt.figure()
+    # plt.clf()
+    # plt.plot(timespan, rotEnergy[:, 1] - rotEnergy[0, 1])
+    # plt.title('Total Energy Difference', fontsize=16)
+    # plt.ylabel('Energy (J)', fontsize=14)
+    # plt.xlabel('Time (min)', fontsize=14)
+    # plt.grid(True)
 
     if show_plots:
         plt.show()
